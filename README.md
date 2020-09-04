@@ -1,2 +1,11 @@
 # cocoapods-nexus
-a plugin for nexus
+
+A description of cocoapods-nexus.
+
+## Installation
+
+    $ gem install cocoapods-nexus
+
+## Usage
+
+    $ pod spec nexus POD_NAME
