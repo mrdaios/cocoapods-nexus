@@ -1,0 +1,13 @@
+name: CI
+on:
+  push:
+    tags:        
+      - v*
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+    - name: Publish gem
+      uses: dawidd6/action-publish-gem@v1.1.0
+      with:
+        api_key: ${{secrets.RUBYGEMS_API_KEY}}
