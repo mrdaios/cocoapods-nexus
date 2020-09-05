@@ -1,5 +1,6 @@
 require 'cocoapods-nexus/api'
 require 'cocoapods-nexus/downloader'
+require 'versionomy'
 
 module Pod
   class NexusSource < Source
@@ -86,12 +87,12 @@ module Pod
     # 解析附件downloadUrl
     def parse_artifacte_asset_url(artifacte, asset_type)
       asset = artifacte['assets'].select { |asset| asset['path'].end_with?(asset_type) }.first
-      asset['downloadUrl'] unless asset['downloadUrl'].nil?
-    end
+      asset['downloadUrl'] if asset && asset['downloadUrl'].nil?
+    end 
 
     def nexus_find_artifacte(spec_name:, spec_version:)
       artifactes = nexus_api.search_maven_component(artifact_id: spec_name)
-      artifacte = artifactes.select { |artifacte| artifacte['version'].start_with?(spec_version) }.sort_by { |artifacte| artifacte['version'].downcase }.last
+      artifacte = artifactes.select { |artifacte| artifacte['version'].start_with?(spec_version) }.sort_by { |artifacte| Versionomy.parse(artifacte['version'])}.last
       artifacte
     end
 

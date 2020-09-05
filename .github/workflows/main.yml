@@ -7,6 +7,8 @@ jobs:
   build:
     runs-on: macos-latest
     steps:
+    - uses: actions/checkout@v2
+    
     - name: Publish gem
       uses: dawidd6/action-publish-gem@v1.1.0
       with:
