@@ -87,7 +87,7 @@ module Pod
     # 解析附件downloadUrl
     def parse_artifacte_asset_url(artifacte, asset_type)
       asset = artifacte['assets'].select { |asset| asset['path'].end_with?(asset_type) }.first
-      asset['downloadUrl'] if asset && asset['downloadUrl'].nil?
+      asset['downloadUrl'] if asset && asset['downloadUrl']
     end 
 
     def nexus_find_artifacte(spec_name:, spec_version:)
