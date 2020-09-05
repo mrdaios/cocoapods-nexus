@@ -4,7 +4,7 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
 Gem::Specification.new do |spec|
   spec.name = 'cocoapods-nexus'
-  spec.version = "0.0.1"
+  spec.version = "0.0.2"
   spec.authors = ['mrdaios']
   spec.email = ['mrdaios@gmail.com']
   spec.description = 'a cocoapods plugin for nexus.'
@@ -20,6 +20,7 @@ Gem::Specification.new do |spec|
 
   spec.add_runtime_dependency 'cocoapods', '>= 1.9.3'
   spec.add_runtime_dependency 'rest-client', '~> 2.1.0'
+  spec.add_runtime_dependency 'versionomy', '~> 0.5.0'
 
   spec.add_development_dependency 'bundler', '~> 1.3'
   spec.add_development_dependency 'rake', '~> 13.0'
