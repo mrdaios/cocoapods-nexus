@@ -32,7 +32,7 @@ module Pod
       end
 
       def user_agent_argument
-        "-A '#{Http.user_agent_string}'"
+        "-A cocoapods-nexus"
       end
     end
   end
