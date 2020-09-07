@@ -39,7 +39,7 @@ module Pod
         # 暂时这样处理
         spec_version = query.requirement.requirements.last.last.to_s
         artifacte = nexus_find_artifacte(spec_name: query.root_name, spec_version: spec_version)
-        if artifacte
+        unless artifacte.empty?
           download_url = parse_artifacte_asset_url(artifacte, 'podspec')
           if download_url
             target_path = "#{@repo}/#{query.root_name}/#{spec_version}"
@@ -92,7 +92,9 @@ module Pod
 
     def nexus_find_artifacte(spec_name:, spec_version:)
       artifactes = nexus_api.search_maven_component(artifact_id: spec_name)
-      artifacte = artifactes.select { |artifacte| artifacte['version'].start_with?(spec_version) }.sort_by { |artifacte| Versionomy.parse(artifacte['version'])}.last
+      # artifacte = artifactes.select { |artifacte| artifacte['version'].start_with?(spec_version) }.sort_by { |artifacte| Versionomy.parse(artifacte['version'])}.last
+      # 暂时只支持查询指定版本
+      artifacte = artifactes.select { |artifacte| artifacte['version'] == spec_version }.last
       artifacte
     end
 
