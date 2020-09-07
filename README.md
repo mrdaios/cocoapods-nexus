@@ -45,7 +45,7 @@ $ pod nexus list
 $ pod nexus push path/to/podspec --url=NexusHostUrl --repo=RepoName --artifact=path/to/预编译文件
 
 # 例如:
-# pod nexus push ~/demo.podspec --url=http://ip:host --repo=ios_release --artifact=~/demo.zip
+# pod nexus push ~/demo.podspec --url=http://ip:port --repo=ios_release --artifact=~/demo.zip
 ```
 
 ### Podfile配置
@@ -77,7 +77,7 @@ password nexus_password
 
 ### 2.服务器地址
 
-插件关于nexus的相关操作只需要配置ip和host，后续的mount地址默认为nexus，暂时不支持修改。
+插件关于nexus的相关操作只需要配置ip和port，后续的mount地址默认为nexus，暂时不支持修改。
 
 ## 致谢
 
