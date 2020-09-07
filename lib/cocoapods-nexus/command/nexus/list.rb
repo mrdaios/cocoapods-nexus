@@ -5,7 +5,7 @@ module Pod
   class Command
     class Nexus
       class List < Nexus
-        self.summary = 'Add a nexus repo.'
+        self.summary = 'List a nexus repo.'
 
         self.description = <<-DESC
           添加一个nexus的repo
