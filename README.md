@@ -26,7 +26,7 @@ $ gem install cocoapods-nexus
 ```shell
 $ pod nexus add RepoName NexusHostUrl
 # 例如:
-# pod nexus add ios_release http://ip:host
+# pod nexus add ios_release http://ip:port
 ```
 
 #### List
@@ -55,7 +55,7 @@ $ pod nexus push path/to/podspec --url=NexusHostUrl --repo=RepoName --artifact=p
 plugin 'cocoapods-nexus', :sources => [
   {
     :name => "ios",
-    :url => "http://ip:host",
+    :url => "http://ip:port",
   }
 ]
 
