@@ -16,9 +16,10 @@ module Pod
 
         def self.options
           [
-            ['--url=url', 'a nexus hostname'],
-            ['--repo=repo', 'a nexus repo'],
-            ['--artifact=artifact', 'a nexus artifact']
+            %w[--url=url nexus服务器地址(http://ip:port)],
+            %w[--repo=repo nexus的仓库名称],
+            %w[--artifact=artifact 制品文件],
+            %w[--podspec_hook=podspec_hook. podspec动态修改脚本文件]
           ].concat(super)
         end
 
@@ -27,6 +28,7 @@ module Pod
           @url = argv.option('url')
           @repo = argv.option('repo')
           @artifact = argv.option('artifact')
+          @podspec_hook = argv.option('podspec_hook')
           super
         end
 
@@ -40,8 +42,10 @@ module Pod
         def run
           podspec_path = File.expand_path(@podspec)
           artifact_path = File.expand_path(@artifact) unless @artifact.nil?
+          podspec_hook_path = File.expand_path(@podspec_hook) unless @podspec_hook.nil?
 
-          UI.section("开始发布 #{File.basename(@podspec)} -> #{@url}/nexus/#browse/browse:#{@repo}") do
+
+          UI.section("开始发布 #{File.basename(@podspec)} -> #{File.join(@url,"/nexus/#browse/browse:",@repo)}") do
             spec = Specification.from_file(podspec_path)
             artifact_id = spec.attributes_hash['name']
             version = spec.attributes_hash['version']
@@ -52,7 +56,8 @@ module Pod
                                                 group_id: group_id,
                                                 podspec: podspec_path,
                                                 artifact: artifact_path,
-                                                files: [])
+                                                podspec_hook: podspec_hook_path,
+                                                files: nil)
               UI.puts "成功发布 #{artifact_id}(#{version})"
             else
               raise Informative, "发布失败 #{artifact_id}(#{version})，请检查~/.netrc文件或#{@repo}类型"
