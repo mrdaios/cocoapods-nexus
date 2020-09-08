@@ -1,6 +1,7 @@
 require 'cocoapods-nexus/api'
 require 'cocoapods-nexus/downloader'
 require 'versionomy'
+require 'cocoapods-nexus/hook/specification'
 
 module Pod
   class NexusSource < Source
@@ -39,7 +40,7 @@ module Pod
         # 暂时这样处理
         spec_version = query.requirement.requirements.last.last.to_s
         artifacte = nexus_find_artifacte(spec_name: query.root_name, spec_version: spec_version)
-        unless artifacte.empty?
+        if artifacte
           download_url = parse_artifacte_asset_url(artifacte, 'podspec')
           if download_url
             target_path = "#{@repo}/#{query.root_name}/#{spec_version}"
@@ -66,7 +67,24 @@ module Pod
         specification.attributes_hash['source'] = {
             'http' => download_url
         }
-        specification.attributes_hash['vendored_frameworks'] = "#{name}.framework"
+
+        # 执行自定义脚本
+        podspec_rb_url = parse_artifacte_asset_url(artifacte, 'podspec_hook.rb')
+        if podspec_rb_url
+          tmpdir = Dir.tmpdir
+          downloader = Pod::Downloader::NexusHttp.new(tmpdir, podspec_rb_url, {:type => 'rb', :name => name})
+          downloader.download
+
+          path = File.join(tmpdir, "#{name}.rb")
+          if File.exist?(path)
+            string = File.open(path, 'r:utf-8', &:read)
+            if string
+              Pod::Specification._eval_nexus_podspec(string, specification)
+            end
+          end
+        else
+          specification.attributes_hash['vendored_frameworks'] = "#{name}.framework"
+        end
       end
       specification
     end
@@ -88,7 +106,7 @@ module Pod
     def parse_artifacte_asset_url(artifacte, asset_type)
       asset = artifacte['assets'].select { |asset| asset['path'].end_with?(asset_type) }.first
       asset['downloadUrl'] if asset && asset['downloadUrl']
-    end 
+    end
 
     def nexus_find_artifacte(spec_name:, spec_version:)
       artifactes = nexus_api.search_maven_component(artifact_id: spec_name)
