@@ -12,7 +12,7 @@ module Pod
       executable :curl
 
       def download!
-        @filename = "#{options[:name]}.#{'podspec'.to_sym}"
+        @filename = "#{options[:name]}.#{options[:type]}"
         @download_path = @target_path + @filename
         download_file(@download_path)
       end
