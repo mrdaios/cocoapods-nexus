@@ -4,7 +4,7 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
 Gem::Specification.new do |spec|
   spec.name = 'cocoapods-nexus'
-  spec.version = '0.0.7'
+  spec.version = '0.0.8'
   spec.authors = ['mrdaios']
   spec.email = ['mrdaios@gmail.com']
   spec.description = 'a cocoapods plugin for nexus.'
