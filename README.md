@@ -84,4 +84,4 @@ password nexus_password
 - [cocoapods-art](https://github.com/jfrog/cocoapods-art)
 - [cocoapods-repo-svn](https://github.com/dustywusty/cocoapods-repo-svn)
 - [nexus_api](https://github.com/Cisco-AMP/nexus_api)
-- 等其他
+- 等
