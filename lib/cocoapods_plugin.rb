@@ -4,7 +4,7 @@ require 'cocoapods-nexus'
 Pod::HooksManager.register('cocoapods-nexus', :source_provider) do |context, options|
   Pod::UI.message 'cocoapods-nexus received source_provider hook'
   unless (sources = options['sources'])
-    raise Pod::Informative.exception 'cocoapods-nexus插件需要配置sources参数.'
+    raise Pod::Informative.exception 'cocoapods-nexus插件需要配置sources参数!'
   end
 
   sources.each do |source_config|
